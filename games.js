@@ -18,10 +18,13 @@ export const addGame = async (collection, name, price, type) => {
   }
 
 export const getGamesByName = async (collection, givenName) => {
-    const gamesByNameQuery = query(collection, where('name', '==', givenName));
+    if (givenName !== undefined && givenName !== '') {
+        const gamesByNameQuery = query(collection, where('name', '==', givenName));
+        return getDocs(gamesByNameQuery);
+    } 
 
-    // TODO: Zwróc wszystkie produkty jeśli givenName jest niepodane
-    // Zwróc produkty o podanej nazwie kiedy jest podany givenName
-
-    return getDocs(gamesByNameQuery);
+    return getDocs(collection);
 }
+
+// TODO: Utwórz funkcje która zwróci funkcje produkty z ceną mniejszą od podanego 
+// parametru

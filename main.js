@@ -15,7 +15,7 @@ const gamesList$ = document.querySelector('#gamesList');
 const displayGamesByName = (givenName) => {
   getGamesByName(gamesCollection, givenName).then(snapshot => {
     snapshot.docs.forEach(doc => {
-      gamesList$.innerHTML = '';
+  
   
       const item = document.createElement('li');
       item.innerHTML = doc.data().name;
@@ -61,6 +61,8 @@ const searchForm$ = document.querySelector('#searchForm');
 
 searchForm$.addEventListener('submit', (event) => {
   event.preventDefault();
+
+  gamesList$.innerHTML = '';
 
   const formData = new FormData(searchForm$);
 
