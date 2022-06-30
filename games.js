@@ -1,4 +1,4 @@
-import { doc, deleteDoc, collection, query, getDocs, where } from 'firebase/firestore';
+import { doc, deleteDoc, collection, query, getDocs, where, orderBy, limit } from 'firebase/firestore';
 
 // TODO: Dodaj wszystkie metody które operują na kolecji "games"
 export const deleteGame = async (database, id) => {
@@ -26,5 +26,13 @@ export const getGamesByName = async (collection, givenName) => {
     return getDocs(collection);
 }
 
-// TODO: Utwórz funkcje która zwróci funkcje produkty z ceną mniejszą od podanego 
-// parametru
+export const getGamesByPrice = async (collection, priceFrom, priceTo) => {
+    const gamesToPriceQuery = query(collection, 
+        where('price', '<=', priceTo),
+        where('price', '>=', priceFrom),
+        orderBy('price', 'desc'),
+        limit(2)
+        );
+
+    return getDocs(gamesToPriceQuery);
+}

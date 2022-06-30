@@ -2,9 +2,9 @@ import './style.css'
 import './node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 import { initializeApp } from "firebase/app";
-import { doc, addDoc, collection, deleteDoc, getDoc, getDocs, getFirestore } from "firebase/firestore";
+import { doc, addDoc, collection, deleteDoc, getDoc, getDocs, getFirestore, onSnapshot } from "firebase/firestore";
 import { firebaseConfig } from './config';
-import { deleteGame, getGamesByName } from './games';
+import { deleteGame, getGamesByName, getGamesByPrice } from './games';
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
@@ -67,4 +67,13 @@ searchForm$.addEventListener('submit', (event) => {
   const formData = new FormData(searchForm$);
 
   displayGamesByName(formData.get('searchPhrase'));
+})
+
+
+const messagesColection = collection(db, 'messages');
+
+onSnapshot(messagesColection, (querySnapshot) => {
+  querySnapshot.docs.forEach(doc => {
+    console.log(`${doc.data().senderName}: ${doc.data().content}`);
+  })
 })
