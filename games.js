@@ -1,4 +1,4 @@
-import { doc, deleteDoc, collection } from 'firebase/firestore';
+import { doc, deleteDoc, collection, query, getDocs, where } from 'firebase/firestore';
 
 // TODO: Dodaj wszystkie metody które operują na kolecji "games"
 export const deleteGame = async (database, id) => {
@@ -17,4 +17,11 @@ export const addGame = async (collection, name, price, type) => {
     return addDoc(collection, newGame);
   }
 
-  
+export const getGamesByName = async (collection, givenName) => {
+    const gamesByNameQuery = query(collection, where('name', '==', givenName));
+
+    // TODO: Zwróc wszystkie produkty jeśli givenName jest niepodane
+    // Zwróc produkty o podanej nazwie kiedy jest podany givenName
+
+    return getDocs(gamesByNameQuery);
+}

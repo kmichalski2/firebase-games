@@ -4,9 +4,43 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
+    <title>Firebase Games</title>
   </head>
   <body>
+    <nav class="navbar bg-light">
+      <div class="container">
+        <a class="navbar-brand">FirebaseGames 👾</a>
+        <form class="d-flex" role="search" id="searchForm">
+          <input
+            class="form-control me-2"
+            type="search"
+            name="searchPhrase"
+            placeholder="Search"
+            aria-label="Search"
+          />
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
+    </nav>
+    <!-- <nav class="navbar bg-dark">
+      <div class="container">
+        <form role="filter" class="d-flex">
+          <input
+            type="number"
+            name="priceFrom"
+            class="form-control"
+            placeholder="from"
+          />
+          <input
+            type="number"
+            name="priceTo"
+            class="form-control"
+            placeholder="to"
+          />
+        </form>
+      </div>
+    </nav> -->
+
     <main class="container">
       <ul class="list-group mt-5 mb-5" id="gamesList"></ul>
 
