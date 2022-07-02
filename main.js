@@ -8,8 +8,9 @@ import { getStorage, ref, uploadBytes } from 'firebase/storage';
 import { initAddPage } from './add';
 import { firebaseConfig } from './config';
 import { initIndexPage } from './index';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 import { initRegisterPage } from './register';
+import { initLoginPage} from './login';
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -25,19 +26,34 @@ onAuthStateChanged(auth, (user) => {
     initIndexPage(db, gamesCollection, storage);
     initAddPage(gamesCollection, storage);
   } else {
-    if (window.location.pathname === '/register.html') {
+    const allowedUrls = [
+      '/register.html',
+      '/login.html'
+    ]
+
+    if (allowedUrls.includes(window.location.pathname)) {
       return;
     }
 
-    alert('Jesteś niezalogowany!');
-
-    window.location.href = window.location.origin + '/register.html';
+    window.location.href = window.location.origin + '/login.html';
   }
 })
 
-initRegisterPage(auth);
+const signOutLink$ = document.querySelector('#signOutLink');
 
-console.log(window.location);
+if (signOutLink$) {
+  signOutLink$.addEventListener('click', event => {
+    event.preventDefault();
+
+    signOut(auth).then(() => {
+      window.location.href = window.location.origin + '/login.html';
+    });
+  })
+}
+
+initRegisterPage(auth);
+initLoginPage(auth);
+
 
 // TODO 2:
 // 1. Dodaj plik login.html
