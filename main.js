@@ -20,5 +20,5 @@ const coverRef = ref(storage, 'images/506072-god-of-war-playstation-4-front-cove
 
 console.log(coverRef);
 
-initIndexPage(gamesCollection);
+initIndexPage(db, gamesCollection);
 initAddPage(gamesCollection, storage);

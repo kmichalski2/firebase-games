@@ -3,7 +3,7 @@
 import { getGamesByName, getGamesByPrice, deleteGame } from "./games";
 
 
-const addItemToList = (gamesList$, doc) => {
+const addItemToList = (db, gamesList$, doc) => {
   const image = document.createElement('img');
   image.src = doc.data().url;
   image.classList.add('img-thumbnail');
@@ -33,23 +33,23 @@ const addItemToList = (gamesList$, doc) => {
   gamesList$.append(item);
 }
 
-const displayGamesByName = (gamesList$, gamesCollection, givenName) => {
+const displayGamesByName = (db, gamesList$, gamesCollection, givenName) => {
   getGamesByName(gamesCollection, givenName).then(snapshot => {
     snapshot.docs.forEach(doc => {
-      addItemToList(gamesList$, doc);
+      addItemToList(db, gamesList$, doc);
     })
   })
 }
 
-const displayGamesByPrice = (gamesList$, gamesCollection, priceFrom, priceTo) => {
+const displayGamesByPrice = (db, gamesList$, gamesCollection, priceFrom, priceTo) => {
   getGamesByPrice(gamesCollection, priceFrom, priceTo).then(snapshot => {
     snapshot.docs.forEach(doc => {
-      addItemToList(gamesList$, doc);
+      addItemToList(db, gamesList$, doc);
     })
   })
 }
 
-export const initIndexPage = (gamesCollection) => {
+export const initIndexPage = (db, gamesCollection) => {
     const gamesList$ = document.querySelector('#gamesList');
     const searchForm$ = document.querySelector('#searchForm');
   
@@ -61,7 +61,7 @@ export const initIndexPage = (gamesCollection) => {
       
         const formData = new FormData(searchForm$);
       
-        displayGamesByName(gamesList, gamesCollection, formData.get('searchPhrase'));
+        displayGamesByName(db, gamesList$, gamesCollection, formData.get('searchPhrase'));
       })
     }
   
@@ -75,11 +75,11 @@ export const initIndexPage = (gamesCollection) => {
       
         const formData = new FormData(filterForm$);
       
-        displayGamesByPrice(gamesList, gamesCollection, formData.get('priceFrom'), formData.get('priceTo'));
+        displayGamesByPrice(db, gamesList$, gamesCollection, formData.get('priceFrom'), formData.get('priceTo'));
       });
     }
 
     if (gamesList$) {
-        displayGamesByName(gamesList, gamesCollection);
+        displayGamesByName(db, gamesList$, gamesCollection);
       }
   }
