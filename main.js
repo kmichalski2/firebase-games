@@ -1,10 +1,13 @@
 import './style.css'
 import './node_modules/bootstrap/dist/css/bootstrap.min.css';
+import './node_modules/bootstrap/dist/js/bootstrap';
 
 import { initializeApp } from "firebase/app";
 import { doc, addDoc, collection, deleteDoc, getDoc, getDocs, getFirestore, onSnapshot } from "firebase/firestore";
 import { firebaseConfig } from './config';
 import { deleteGame, getGamesByName, getGamesByPrice } from './games';
+import { initAddPage } from './add';
+
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
@@ -13,9 +16,15 @@ const gamesCollection = collection(db, 'games');
 const gamesList$ = document.querySelector('#gamesList');
 
 const addItemToList = (doc) => {
+  const image = document.createElement('img');
+  image.src = doc.data().url;
+  image.classList.add('img-thumbnail');
+  image.style.width = '100px';
+
   const item = document.createElement('li');
   item.innerHTML = `${doc.data().name} | Cena: ${doc.data().price} PLN`;
   item.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
+  item.prepend(image);
 
   const deleteButton = document.createElement('button');
   deleteButton.innerHTML = 'Delete';
@@ -52,47 +61,45 @@ const displayGamesByPrice = (priceFrom, priceTo) => {
   })
 }
 
-const addGameForm$ = document.querySelector('#addGameForm');
+const initIndexPage = (gamesCollection) => {
+  const searchForm$ = document.querySelector('#searchForm');
 
-addGameForm$.addEventListener('submit', (event) => {
-  event.preventDefault();
+  if (searchForm$) {
+    searchForm$.addEventListener('submit', (event) => {
+      event.preventDefault();
+    
+      gamesList$.innerHTML = '';
+    
+      const formData = new FormData(searchForm$);
+    
+      displayGamesByName(formData.get('searchPhrase'));
+    })
+  }
 
-  const formData = new FormData(addGameForm$);
+  const filterForm$ = document.querySelector('#filterForm');
 
-  addGame(gamesCollection, formData.get('name'), formData.get('price'), formData.get('type')).then(result => {
-    console.log('Nowa gra została dodana');
-  })
-});
+  if (filterForm$) {
+    filterForm$.addEventListener('submit', (event) => {
+      event.preventDefault();
+    
+      gamesList$.innerHTML = '';
+    
+      const formData = new FormData(filterForm$);
+    
+      displayGamesByPrice(formData.get('priceFrom'), formData.get('priceTo'));
+    });
+  }
+}
 
-const searchForm$ = document.querySelector('#searchForm');
+initIndexPage(gamesCollection);
+initAddPage(gamesCollection);
 
-searchForm$.addEventListener('submit', (event) => {
-  event.preventDefault();
-
-  gamesList$.innerHTML = '';
-
-  const formData = new FormData(searchForm$);
-
-  displayGamesByName(formData.get('searchPhrase'));
-})
-
-const filterForm$ = document.querySelector('#filterForm');
-
-filterForm$.addEventListener('submit', (event) => {
-  event.preventDefault();
-
-  gamesList$.innerHTML = '';
-
-  const formData = new FormData(filterForm$);
-
-  displayGamesByPrice(formData.get('priceFrom'), formData.get('priceTo'));
-
-})
+displayGamesByName();
 
 // Zadanie
-// 1. Utwórz plik add.html
-// 2. Dodaj formualrz dodawania
-// 3. Utwórz plik add.js
-// 4. Przenieś całą funkcjonalność dodawania do pliku add.js
+// 1. Utwórz plik add.html [/]
+// 2. Dodaj formularz dodawania [/]
+// 3. Utwórz plik add.js [/]
+// 4. Przenieś całą funkcjonalność dodawania do pliku add.js [/]
 // 5. Dodaj link add do nawigacji
 // Nowa zmiana

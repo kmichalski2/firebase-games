@@ -1,4 +1,4 @@
-import { doc, deleteDoc, collection, query, getDocs, where, orderBy, limit } from 'firebase/firestore';
+import { addDoc, doc, deleteDoc, collection, query, getDocs, where, orderBy, limit } from 'firebase/firestore';
 
 // TODO: Dodaj wszystkie metody które operują na kolecji "games"
 export const deleteGame = async (database, id) => {

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Firebase Games</title>
+    <title>Firebase Games - Add new game</title>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg bg-light">
@@ -25,7 +25,9 @@
         <div class="collapse navbar-collapse" id="navbarText">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Home</a>
+              <a class="nav-link active" aria-current="page" href="index.html"
+                >Home</a
+              >
             </li>
             <li class="nav-item">
               <a class="nav-link" href="add.html">Add game</a>
@@ -47,28 +49,25 @@
       </div>
     </nav>
 
-    <nav class="navbar bg-dark">
-      <div class="container">
-        <form role="filter" class="d-flex" id="filterForm">
-          <input
-            type="number"
-            name="priceFrom"
-            class="form-control"
-            placeholder="from"
-          />
-          <input
-            type="number"
-            name="priceTo"
-            class="form-control"
-            placeholder="to"
-          />
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-      </div>
-    </nav>
-
     <main class="container">
-      <ul class="list-group mt-5 mb-5" id="gamesList"></ul>
+      <form id="addGameForm">
+        <div class="mb-3">
+          <label class="form-label">Name:</label>
+          <input type="text" class="form-control" name="name" />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Price:</label>
+          <input type="number" class="form-control" name="price" />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Type:</label>
+          <input class="form-control" type="text" name="type" />
+        </div>
+
+        <button class="btn btn-primary" type="submit" id="addGameButton">
+          Add game
+        </button>
+      </form>
     </main>
 
     <script type="module" src="/main.js"></script>
