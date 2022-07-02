@@ -7,11 +7,12 @@ export const deleteGame = async (database, id) => {
     return deleteDoc(docRef);
 }
 
-export const addGame = async (collection, name, price, type) => {
+export const addGame = async (collection, name, price, type, url) => {
     const newGame = {
       name: name,
       price: price,
-      type: type
+      type: type,
+      url: url
     }
   
     return addDoc(collection, newGame);

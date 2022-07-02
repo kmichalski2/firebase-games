@@ -12,7 +12,7 @@ export const initAddPage = (gamesCollection) => {
       
         const formData = new FormData(addGameForm$);
       
-        addGame(gamesCollection, formData.get('name'), formData.get('price'), formData.get('type')).then(result => {
+        addGame(gamesCollection, formData.get('name'), formData.get('price'), formData.get('type'), formData.get('url')).then(result => {
           console.log('Nowa gra została dodana');
         })
       });
