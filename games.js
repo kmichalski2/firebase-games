@@ -28,8 +28,8 @@ export const getGamesByName = async (collection, givenName) => {
 
 export const getGamesByPrice = async (collection, priceFrom, priceTo) => {
     const gamesToPriceQuery = query(collection, 
-        where('price', '<=', priceTo),
-        where('price', '>=', priceFrom),
+        where('price', '<=', parseInt(priceTo)),
+        where('price', '>=', parseInt(priceFrom)),
         orderBy('price', 'desc')
         );
 
