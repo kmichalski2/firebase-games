@@ -95,3 +95,4 @@ filterForm$.addEventListener('submit', (event) => {
 // 3. Utwórz plik add.js
 // 4. Przenieś całą funkcjonalność dodawania do pliku add.js
 // 5. Dodaj link add do nawigacji
+// Nowa zmiana
