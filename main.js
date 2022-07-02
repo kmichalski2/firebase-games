@@ -96,10 +96,6 @@ initAddPage(gamesCollection);
 
 displayGamesByName();
 
-// Zadanie
-// 1. Utwórz plik add.html [/]
-// 2. Dodaj formularz dodawania [/]
-// 3. Utwórz plik add.js [/]
-// 4. Przenieś całą funkcjonalność dodawania do pliku add.js [/]
-// 5. Dodaj link add do nawigacji
-// Nowa zmiana
+// Zadania
+// Dodaj obrazki dla wszystkich produktów
+// Dodaj pole url do formularza, które pozwoli dodać obrazek
