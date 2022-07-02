@@ -1,18 +1,24 @@
-import { addDoc, doc, deleteDoc, collection, query, getDocs, where, orderBy, limit } from 'firebase/firestore';
+import { addDoc, doc, deleteDoc, collection, query, getDocs, where, orderBy, limit, getDoc } from 'firebase/firestore';
+import { deleteImage } from './storage';
 
 // TODO: Dodaj wszystkie metody które operują na kolecji "games"
-export const deleteGame = async (database, id) => {
+export const deleteGame = async (database, id, storage) => {
     const docRef = await doc(database, 'games', id);
-  
-    return deleteDoc(docRef);
+
+    return getDoc(docRef).then(doc => {
+        return deleteDoc(docRef).then(result => {
+            deleteImage(storage, doc.data().imagePath)
+        });
+    })
 }
 
-export const addGame = async (collection, name, price, type, url) => {
+export const addGame = async (collection, name, price, type, url, imagePath) => {
     const newGame = {
       name: name,
       price: price,
       type: type,
-      url: url
+      url: url,
+      imagePath: imagePath
     }
   
     return addDoc(collection, newGame);

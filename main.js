@@ -14,11 +14,18 @@ const db = getFirestore(app);
 const gamesCollection = collection(db, 'games');
 
 const storage = getStorage(app);
-const imagesRef = ref(storage, 'image');
 
-const coverRef = ref(storage, 'images/506072-god-of-war-playstation-4-front-cover.jpeg');
-
-console.log(coverRef);
-
-initIndexPage(db, gamesCollection);
+initIndexPage(db, gamesCollection, storage);
 initAddPage(gamesCollection, storage);
+
+// TODO: 
+// 1. Dodaj plik register.html
+// 2. Utwórz formularz rejestracji, posiadający dwa pola
+// EMAIL i PASSWORD
+// 3. Dodaj plik register.js, w którym obsłuzysz wysylanie formularza
+
+// TODO 2:
+// 1. Dodaj plik login.html
+// 2. Utwórz formularz rejestracji, posiadający dwa pola
+// EMAIL i PASSWORD
+// 3. Dodaj plik login.js, w którym obsłuzysz wysylanie formularza

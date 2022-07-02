@@ -8,11 +8,7 @@ export const uploadImage = async (storage, file) => {
 } 
 
 export const deleteImage = async (storage, fullPath) => {
-    // images/506072-god-of-war-playstation-4-front-cover.jpeg
-    
     const imageRef = ref(storage, fullPath);
 
     return deleteObject(imageRef);
 }
-
-// TODO: Usun obrazek po usunieciu produktu z bazy danych

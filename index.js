@@ -1,15 +1,17 @@
 
 
 import { getGamesByName, getGamesByPrice, deleteGame } from "./games";
+import { deleteImage } from "./storage";
 
 
-const addItemToList = (db, gamesList$, doc) => {
+const addItemToList = (db, gamesList$, doc, storage) => {
   const image = document.createElement('img');
   image.src = doc.data().url;
   image.classList.add('img-thumbnail');
   image.style.width = '100px';
 
   const item = document.createElement('li');
+
   item.innerHTML = `${doc.data().name} | Cena: ${doc.data().price} PLN`;
   item.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
   item.prepend(image);
@@ -22,7 +24,7 @@ const addItemToList = (db, gamesList$, doc) => {
   deleteButton.addEventListener('click', (event) => {
     const target = event.currentTarget;
 
-    deleteGame(db, target.id).then(result => {
+    deleteGame(db, target.id, storage).then(result => {
       console.log(`Gra o numerze ${target.id} została usunięta!`);
     })
 
@@ -33,23 +35,23 @@ const addItemToList = (db, gamesList$, doc) => {
   gamesList$.append(item);
 }
 
-const displayGamesByName = (db, gamesList$, gamesCollection, givenName) => {
+const displayGamesByName = (db, gamesList$, gamesCollection, givenName, storage) => {
   getGamesByName(gamesCollection, givenName).then(snapshot => {
     snapshot.docs.forEach(doc => {
-      addItemToList(db, gamesList$, doc);
+      addItemToList(db, gamesList$, doc, storage);
     })
   })
 }
 
-const displayGamesByPrice = (db, gamesList$, gamesCollection, priceFrom, priceTo) => {
+const displayGamesByPrice = (db, gamesList$, gamesCollection, priceFrom, priceTo, storage) => {
   getGamesByPrice(gamesCollection, priceFrom, priceTo).then(snapshot => {
     snapshot.docs.forEach(doc => {
-      addItemToList(db, gamesList$, doc);
+      addItemToList(db, gamesList$, doc, storage);
     })
   })
 }
 
-export const initIndexPage = (db, gamesCollection) => {
+export const initIndexPage = (db, gamesCollection, storage) => {
     const gamesList$ = document.querySelector('#gamesList');
     const searchForm$ = document.querySelector('#searchForm');
   
@@ -61,7 +63,7 @@ export const initIndexPage = (db, gamesCollection) => {
       
         const formData = new FormData(searchForm$);
       
-        displayGamesByName(db, gamesList$, gamesCollection, formData.get('searchPhrase'));
+        displayGamesByName(db, gamesList$, gamesCollection, formData.get('searchPhrase'), storage);
       })
     }
   
@@ -75,11 +77,11 @@ export const initIndexPage = (db, gamesCollection) => {
       
         const formData = new FormData(filterForm$);
       
-        displayGamesByPrice(db, gamesList$, gamesCollection, formData.get('priceFrom'), formData.get('priceTo'));
+        displayGamesByPrice(db, gamesList$, gamesCollection, formData.get('priceFrom'), formData.get('priceTo'), storage);
       });
     }
 
     if (gamesList$) {
-        displayGamesByName(db, gamesList$, gamesCollection);
+        displayGamesByName(db, gamesList$, gamesCollection, '', storage);
       }
   }
