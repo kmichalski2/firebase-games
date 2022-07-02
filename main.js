@@ -42,8 +42,35 @@ const displayGamesByName = (givenName) => {
   })
 }
 
-// TODO: Dodaj obsługę formularza wyszukiwania, tak aby wyszukiwał i wyświetlał tylko
-// produkty o określonej nazwie
+const displayGamesByPrice = (priceFrom, priceTo) => {
+  getGamesByPrice(gamesCollection, priceFrom, priceTo).then(snapshot => {
+    snapshot.docs.forEach(doc => {
+  
+  
+      const item = document.createElement('li');
+      item.innerHTML = `${doc.data().name} | Cena: ${doc.data().price} PLN`;
+      item.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
+  
+      const deleteButton = document.createElement('button');
+      deleteButton.innerHTML = 'Delete';
+      deleteButton.classList.add('btn', 'btn-warning');
+      deleteButton.id = doc.id;
+  
+      deleteButton.addEventListener('click', (event) => {
+        const target = event.currentTarget;
+  
+        deleteGame(db, target.id).then(result => {
+          console.log(`Gra o numerze ${target.id} została usunięta!`);
+        })
+    
+      });
+  
+      item.append(deleteButton);
+  
+      gamesList$.append(item);
+    })
+  })
+}
 
 const addGameForm$ = document.querySelector('#addGameForm');
 
@@ -69,11 +96,4 @@ searchForm$.addEventListener('submit', (event) => {
   displayGamesByName(formData.get('searchPhrase'));
 })
 
-
-const messagesColection = collection(db, 'messages');
-
-onSnapshot(messagesColection, (querySnapshot) => {
-  querySnapshot.docs.forEach(doc => {
-    console.log(`${doc.data().senderName}: ${doc.data().content}`);
-  })
-})
+displayGamesByPrice(0, 200);

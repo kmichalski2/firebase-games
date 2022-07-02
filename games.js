@@ -30,8 +30,7 @@ export const getGamesByPrice = async (collection, priceFrom, priceTo) => {
     const gamesToPriceQuery = query(collection, 
         where('price', '<=', priceTo),
         where('price', '>=', priceFrom),
-        orderBy('price', 'desc'),
-        limit(2)
+        orderBy('price', 'desc')
         );
 
     return getDocs(gamesToPriceQuery);
