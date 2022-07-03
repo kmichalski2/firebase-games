@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, GithubAuthProvider, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 export const initRegisterPage = (auth) => {
     const registerForm$ = document.querySelector('#registerForm');
@@ -13,10 +13,7 @@ export const initRegisterPage = (auth) => {
                 console.log('Uzytkownik zostal zarejestrowany');
                 console.log(userCredential);
 
-                // http://localhost:3000/index.html
-                const redirectTo = window.location.origin + '/index.html';
-
-                window.location.href = redirectTo;
+                redirectToHomePage();
             }).catch((error) => {
                 console.error(error.code, error.message);
             })
@@ -26,11 +23,45 @@ export const initRegisterPage = (auth) => {
     const signInWithGoogleButton$ = document.querySelector('#signInWithGoogleButton');
 
     if (signInWithGoogleButton$) {
-        signInWithGoogleButton$.addEventListener('click', () => {
-                console.log('Sign In with Google');
+        signInWithGoogleButton$.addEventListener('click', (event) => {
+            event.preventDefault();
+
+            const provider = new GoogleAuthProvider();
+
+            signWithProvider(auth, provider);
         });
+    }
+
+    const signInWithGithub$ = document.querySelector('#signInWithGithub');
+
+    if(signInWithGithub$) {
+        signInWithGithub$.addEventListener('click', (event) => {
+            event.preventDefault();
+
+            const provider = new GithubAuthProvider();
+
+            signWithProvider(auth, provider);
+        })
     }
 };
 
-// 1. Dodaj Button Sign In With Google do register.html
-// 2. Dodaj obsługę nacisnięcia przycisku w register.js
+const redirectToHomePage = () => {
+    const redirectTo = window.location.origin + '/index.html';
+
+    window.location.href = redirectTo;
+}
+
+const signWithProvider = (auth, provider) => {
+    signInWithPopup(auth, provider).then(result => {
+        console.log('Zalogowano z ' + provider.PROVIDER_ID)
+
+        redirectToHomePage();
+    }).catch(error => {
+        console.error('Wystąpił błąd');
+        console.error(error);
+    })
+}
+
+// Dodaj dowolnego zewnętrznego providera
+// 1. Dodaj przycisk dla wybranego providera np Facebook, Apple, Twitter, Github...
+// 2. Dodaj obsługę przycisku
