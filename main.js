@@ -21,11 +21,7 @@ const storage = getStorage(app);
 const auth = getAuth(app);
 
 onAuthStateChanged(auth, (user) => {
-  console.log
-  if (user) {
-    initIndexPage(db, gamesCollection, storage);
-    initAddPage(gamesCollection, storage);
-  } else {
+  if (!user) {
     const allowedUrls = [
       '/register.html',
       '/login.html'
@@ -38,6 +34,9 @@ onAuthStateChanged(auth, (user) => {
     window.location.href = window.location.origin + '/login.html';
   }
 })
+
+initIndexPage(db, gamesCollection, storage);
+initAddPage(gamesCollection, storage);
 
 const signOutLink$ = document.querySelector('#signOutLink');
 
@@ -54,9 +53,3 @@ if (signOutLink$) {
 initRegisterPage(auth);
 initLoginPage(auth);
 
-
-// TODO 2:
-// 1. Dodaj plik login.html
-// 2. Utwórz formularz rejestracji, posiadający dwa pola
-// EMAIL i PASSWORD
-// 3. Dodaj plik login.js, w którym obsłuzysz wysylanie formularza

@@ -22,4 +22,15 @@ export const initRegisterPage = (auth) => {
             })
         });
     }
+
+    const signInWithGoogleButton$ = document.querySelector('#signInWithGoogleButton');
+
+    if (signInWithGoogleButton$) {
+        signInWithGoogleButton$.addEventListener('click', () => {
+                console.log('Sign In with Google');
+        });
+    }
 };
+
+// 1. Dodaj Button Sign In With Google do register.html
+// 2. Dodaj obsługę nacisnięcia przycisku w register.js
